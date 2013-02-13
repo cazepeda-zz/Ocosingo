@@ -96,4 +96,30 @@ $obj->connect();
 	}
 ?>
 
+<h2>Dining Out</h2>
+
+<table>
+	<tbody>
+		<?php
+			if(isset($_GET['id'])):
+				$obj->get_dining_out_monies($_GET['id']);
+			else:
+				$obj->get_dining_out_monies();
+			endif;
+			?>
+	</tbody>
+</table>
+
+<?php
+	// Make a MySQL Connection
+	$query = "SELECT amount, SUM(amount) FROM dining_out"; 
+	
+	$result = mysql_query($query) or die(mysql_error());
+
+	// Print out result
+	while($row = mysql_fetch_array($result)){
+	echo "Total = $". $row['SUM(amount)'];
+	}
+?>
+
 <?php include 'footer.php'; ?>

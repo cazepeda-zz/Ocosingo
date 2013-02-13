@@ -8,6 +8,8 @@
 <li><a href="/transas/remove.php">Update Bills</a></li>
 <li><a href="/transas/misc-adding.php">Add Miscellaneous</a></li>
 <li><a href="/transas/misc-remove.php">Update Miscellaneous</a></li>
+<li><a href="/transas/dining-out-adding.php">Add Dining Out</a></li>
+<li><a href="/transas/dining-out-remove.php">Update Dining Out</a></li>
 </ul>
 </nav>
 </header>

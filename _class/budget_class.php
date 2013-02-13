@@ -87,7 +87,7 @@ function get_dining_out_monies($id = '') {
 			echo '</td>';
 			echo "\n";
 			echo '<td>';
-			echo ''. $row['amoount'] .'';
+			echo ''. $row['amount'] .'';
 			echo '</td></tr>';
 		}
 	else:
@@ -161,11 +161,26 @@ function add_dining_out_monies($post) {
 
 		echo '<p><a href="dining-out-adding.php">Try again.</a>';
 		else:
-			$sql = "INSERT INTO dining_out VALUES (null, '$places', '$amount')";
+			$sql = "INSERT INTO dining_out VALUES (null, '$place', '$amount')";
 		$result = mysql_query($sql) or die(mysql_error());
 		echo "Added Succesfully!";
 
 		endif;
+}
+
+function manage_monies() {
+	echo '<div id="manage">';
+	$sql = "SELECT * FROM bills";
+	$result = mysql_query($sql) or die(mysql_error());
+	while($row = mysql_fetch_assoc($result)) :
+		?>
+<div>
+	<h2 class="nombre"><?=$row['nombre']?></h2>
+	<span class="actions"><a href="edit.php?id=<?=$row['id']?>">Edit</a> | <a href="?delete=<?=$row['id'];?>">Delete</a></span>
+</div>
+	<?php
+	endwhile;
+	echo '</div>'; //closes manage div
 }
 
 // miscellaneous table edit data
@@ -184,19 +199,31 @@ function manage_misc_monies() {
 	echo '</div>'; //closes manage div
 }
 
-function manage_monies() {
+// dining_out table edit data
+function manage_dining_out_monies() {
 	echo '<div id="manage">';
-	$sql = "SELECT * FROM bills";
+	$sql = "SELECT * FROM dining_out";
 	$result = mysql_query($sql) or die(mysql_error());
 	while($row = mysql_fetch_assoc($result)) :
 		?>
 <div>
-	<h2 class="nombre"><?=$row['nombre']?></h2>
-	<span class="actions"><a href="edit.php?id=<?=$row['id']?>">Edit</a> | <a href="?delete=<?=$row['id'];?>">Delete</a></span>
+	<h2 class="place"><?=$row['place']?></h2>
+	<span class="actions"><a href="dining-out-edit.php?id=<?=$row['id']?>">Edit</a> | <a href="?delete=<?=$row['id'];?>">Delete</a></span>
 </div>
 	<?php
 	endwhile;
 	echo '</div>'; //closes manage div
+}
+
+function delete_monies($id) {
+	if(!$id) {
+		return false;
+	} else {
+		$id = mysql_real_escape_string($id);
+		$sql = "DELETE FROM bills WHERE id = '$id'";
+		$result = mysql_query($sql) or die(mysql_error());
+		echo "Bill Deleted Successfully! Good ridence eh!";
+	}
 }
 
 // miscellaneous table delete data
@@ -211,15 +238,60 @@ function delete_misc_monies($id) {
 	}
 }
 
-function delete_monies($id) {
+// dining_out table delete data
+function delete_dining_out_monies($id) {
 	if(!$id) {
 		return false;
 	} else {
 		$id = mysql_real_escape_string($id);
-		$sql = "DELETE FROM bills WHERE id = '$id'";
+		$sql = "DELETE FROM dining_out WHERE id = '$id'";
 		$result = mysql_query($sql) or die(mysql_error());
-		echo "Bill Deleted Successfully! Good ridence eh!";
+		echo "Dining Out Deleted Successfully! Good ridence eh!";
 	}
+}
+
+function update_monies_form($id) {
+	$id = mysql_real_escape_string($id);
+	$sql = "SELECT * FROM bills WHERE id = '$id'";
+	$result = mysql_query($sql) or die(mysql_error());
+	$row = mysql_fetch_assoc($result);
+	?>
+<form method="post" action="index.php">
+<input type="hidden" name="update" value="true" />
+<input type="hidden" name="id" value="<?=$row['id']?>">
+
+<dl>
+<dt><label for="nombre">Bill Name:</label></dt>
+<dd><input type="text" name="nombre" id="nombre" value="<?=$row['nombre']?>"/></dd>
+
+<dt><label for="amount">Bill Amount:</label></dt>
+<dd><input type="number" name="amount" id="amount" value="<?=$row['amount']?>" step="any" /></dd>
+
+<dd><input type="submit" name="submit" value="Go Broke!" />
+</dl>
+</form>
+	<?php
+}
+
+function update_monies($post) {
+	$nombre = mysql_real_escape_string($post['nombre']);
+	$amount = mysql_real_escape_string($post['amount']);
+	$id = mysql_real_escape_string($post['id']);
+
+	if(!$nombre || !$amount):
+		if(!$nombre):
+			echo "<p>Bill Name is required homez! Put it on there!</p>";
+		endif;
+		if(!$amount):
+			echo "<p>Bill Amount is required! Don't act the fool!</p>";
+		endif;
+
+		echo '<p><a href="edit.php?id=' . $id . '">Try Again!</a></p>';
+	else:
+		$sql = "UPDATE bills SET nombre = '$nombre', amount = '$amount' WHERE id = '$id'";
+		$result = mysql_query($sql) or die(mysql_error());
+		echo "Updated Successfully!";
+	endif;
 }
 
 // miscellaneous table update form
@@ -268,21 +340,22 @@ function update_misc_monies($post) {
 	endif;
 }
 
-function update_monies_form($id) {
+// dining_out table update form
+function update_dining_out_monies_form($id) {
 	$id = mysql_real_escape_string($id);
-	$sql = "SELECT * FROM bills WHERE id = '$id'";
+	$sql = "SELECT * FROM dining_out WHERE id = '$id'";
 	$result = mysql_query($sql) or die(mysql_error());
 	$row = mysql_fetch_assoc($result);
 	?>
-<form method="post" action="index.php">
+<form method="post" action="dining-out-index.php">
 <input type="hidden" name="update" value="true" />
 <input type="hidden" name="id" value="<?=$row['id']?>">
 
 <dl>
-<dt><label for="nombre">Bill Name:</label></dt>
-<dd><input type="text" name="nombre" id="nombre" value="<?=$row['nombre']?>"/></dd>
+<dt><label for="place">Dining Out Place:</label></dt>
+<dd><input type="text" name="place" id="place" value="<?=$row['place']?>"/></dd>
 
-<dt><label for="amount">Bill Amount:</label></dt>
+<dt><label for="amount">Dining Out Amount:</label></dt>
 <dd><input type="number" name="amount" id="amount" value="<?=$row['amount']?>" step="any" /></dd>
 
 <dd><input type="submit" name="submit" value="Go Broke!" />
@@ -291,22 +364,23 @@ function update_monies_form($id) {
 	<?php
 }
 
-function update_monies($post) {
-	$nombre = mysql_real_escape_string($post['nombre']);
+// dining_out table update data
+function update_dining_out_monies($post) {
+	$place = mysql_real_escape_string($post['place']);
 	$amount = mysql_real_escape_string($post['amount']);
 	$id = mysql_real_escape_string($post['id']);
 
-	if(!$nombre || !$amount):
-		if(!$nombre):
-			echo "<p>Bill Name is required homez! Put it on there!</p>";
+	if(!$place || !$amount):
+		if(!$place):
+			echo "<p>Dining Out Place is required homez! Put it on there!</p>";
 		endif;
 		if(!$amount):
-			echo "<p>Bill Amount is required! Don't act the fool!</p>";
+			echo "<p>Dining Out Amount is required! Don't act the fool!</p>";
 		endif;
 
-		echo '<p><a href="edit.php?id=' . $id . '">Try Again!</a></p>';
+		echo '<p><a href="dining-out-edit.php?id=' . $id . '">Try Again!</a></p>';
 	else:
-		$sql = "UPDATE bills SET nombre = '$nombre', amount = '$amount' WHERE id = '$id'";
+		$sql = "UPDATE dining_out SET place = '$place', amount = '$amount' WHERE id = '$id'";
 		$result = mysql_query($sql) or die(mysql_error());
 		echo "Updated Successfully!";
 	endif;
