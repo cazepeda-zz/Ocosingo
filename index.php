@@ -122,4 +122,30 @@ $obj->connect();
 	}
 ?>
 
+<h2>Groceries</h2>
+
+<table>
+	<tbody>
+		<?php
+			if(isset($_GET['id'])):
+				$obj->get_groceries_monies($_GET['id']);
+			else:
+				$obj->get_groceries_monies();
+			endif;
+			?>
+	</tbody>
+</table>
+
+<?php
+	// Make a MySQL Connection
+	$query = "SELECT amount, SUM(amount) FROM groceries"; 
+	
+	$result = mysql_query($query) or die(mysql_error());
+
+	// Print out result
+	while($row = mysql_fetch_array($result)){
+	echo "Total = $". $row['SUM(amount)'];
+	}
+?>
+
 <?php include 'footer.php'; ?>

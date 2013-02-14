@@ -1,0 +1,4 @@
+Ocosingo Features
+
+- Include dates on each entry
+- Single form to add/edit entries

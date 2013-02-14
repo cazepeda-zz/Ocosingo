@@ -10,6 +10,8 @@
 <li><a href="/transas/misc-remove.php">Update Miscellaneous</a></li>
 <li><a href="/transas/dining-out-adding.php">Add Dining Out</a></li>
 <li><a href="/transas/dining-out-remove.php">Update Dining Out</a></li>
+<li><a href="/transas/groceries-adding.php">Add Groceries</a></li>
+<li><a href="/transas/groceries-remove.php">Update Groceries</a></li>
 </ul>
 </nav>
 </header>

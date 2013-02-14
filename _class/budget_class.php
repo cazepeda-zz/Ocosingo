@@ -97,6 +97,35 @@ function get_dining_out_monies($id = '') {
 	echo $return;
 	}
 
+// groceries table get data
+function get_groceries_monies($id = '') {
+	if($id != ""):
+		$id = mysql_real_escape_string($id);
+		$sql = "SELECT * FROM groceries WHERE id = '$id'";
+		$return = '<p><a href="/">Home</a></p>';
+	else:
+		$sql = "SELECT market, amount FROM groceries ORDER BY amount DESC";
+	endif;
+
+	$result = mysql_query($sql) or die(mysql_error());
+
+	if(mysql_num_rows($result) != 0):
+		while($row = mysql_fetch_assoc($result)) {
+			echo '<tr><td>';
+			echo ''. $row['market'] .'';
+			echo '</td>';
+			echo "\n";
+			echo '<td>';
+			echo ''. $row['amount'] .'';
+			echo '</td></tr>';
+		}
+	else:
+		echo '<p>Sorry buddy, you broke homie!</p>';
+	endif;
+
+	echo $return;
+	}
+
 function add_monies($post) {
 	$nombre = mysql_real_escape_string($post['nombre']);
 	$amount = mysql_real_escape_string($post['amount']);
@@ -168,6 +197,30 @@ function add_dining_out_monies($post) {
 		endif;
 }
 
+// groceries table add data
+function add_groceries_monies($post) {
+	$market = mysql_real_escape_string($post['market']);
+	$amount = mysql_real_escape_string($post['amount']);
+
+	if(!$market || !$amount):
+
+		if(!$market):
+			echo "<p>Groceries Name is required.</p>";
+		endif;
+		if(!$amount):
+			echo "<p>Groceries Amount is required.</p>";
+		endif;
+
+
+		echo '<p><a href="groceries-out-adding.php">Try again.</a>';
+		else:
+			$sql = "INSERT INTO groceries VALUES (null, '$market', '$amount')";
+		$result = mysql_query($sql) or die(mysql_error());
+		echo "Added Succesfully!";
+
+		endif;
+}
+
 function manage_monies() {
 	echo '<div id="manage">';
 	$sql = "SELECT * FROM bills";
@@ -215,6 +268,22 @@ function manage_dining_out_monies() {
 	echo '</div>'; //closes manage div
 }
 
+// grocieres table edit data
+function manage_groceries_monies() {
+	echo '<div id="manage">';
+	$sql = "SELECT * FROM groceries";
+	$result = mysql_query($sql) or die(mysql_error());
+	while($row = mysql_fetch_assoc($result)) :
+		?>
+<div>
+	<h2 class="market"><?=$row['market']?></h2>
+	<span class="actions"><a href="groceries-edit.php?id=<?=$row['id']?>">Edit</a> | <a href="?delete=<?=$row['id'];?>">Delete</a></span>
+</div>
+	<?php
+	endwhile;
+	echo '</div>'; //closes manage div
+}
+
 function delete_monies($id) {
 	if(!$id) {
 		return false;
@@ -247,6 +316,18 @@ function delete_dining_out_monies($id) {
 		$sql = "DELETE FROM dining_out WHERE id = '$id'";
 		$result = mysql_query($sql) or die(mysql_error());
 		echo "Dining Out Deleted Successfully! Good ridence eh!";
+	}
+}
+
+// groceries table delete data
+function delete_groceries_monies($id) {
+	if(!$id) {
+		return false;
+	} else {
+		$id = mysql_real_escape_string($id);
+		$sql = "DELETE FROM groceries WHERE id = '$id'";
+		$result = mysql_query($sql) or die(mysql_error());
+		echo "Groceries Deleted Successfully! Good ridence eh!";
 	}
 }
 
@@ -381,6 +462,52 @@ function update_dining_out_monies($post) {
 		echo '<p><a href="dining-out-edit.php?id=' . $id . '">Try Again!</a></p>';
 	else:
 		$sql = "UPDATE dining_out SET place = '$place', amount = '$amount' WHERE id = '$id'";
+		$result = mysql_query($sql) or die(mysql_error());
+		echo "Updated Successfully!";
+	endif;
+}
+
+// groceries table update form
+function update_groceries_monies_form($id) {
+	$id = mysql_real_escape_string($id);
+	$sql = "SELECT * FROM groceries WHERE id = '$id'";
+	$result = mysql_query($sql) or die(mysql_error());
+	$row = mysql_fetch_assoc($result);
+	?>
+<form method="post" action="groceries-index.php">
+<input type="hidden" name="update" value="true" />
+<input type="hidden" name="id" value="<?=$row['id']?>">
+
+<dl>
+<dt><label for="market">Groceries Market:</label></dt>
+<dd><input type="text" name="market" id="market" value="<?=$row['market']?>"/></dd>
+
+<dt><label for="amount">Groceries Amount:</label></dt>
+<dd><input type="number" name="amount" id="amount" value="<?=$row['amount']?>" step="any" /></dd>
+
+<dd><input type="submit" name="submit" value="Go Broke!" />
+</dl>
+</form>
+	<?php
+}
+
+// groceries table update data
+function update_groceries_monies($post) {
+	$market = mysql_real_escape_string($post['market']);
+	$amount = mysql_real_escape_string($post['amount']);
+	$id = mysql_real_escape_string($post['id']);
+
+	if(!$market || !$amount):
+		if(!$market):
+			echo "<p>Groceries market is required homez! Put it on there!</p>";
+		endif;
+		if(!$amount):
+			echo "<p>Groceries Amount is required! Don't act the fool!</p>";
+		endif;
+
+		echo '<p><a href="groceries-edit.php?id=' . $id . '">Try Again!</a></p>';
+	else:
+		$sql = "UPDATE groceries SET market = '$market', amount = '$amount' WHERE id = '$id'";
 		$result = mysql_query($sql) or die(mysql_error());
 		echo "Updated Successfully!";
 	endif;
