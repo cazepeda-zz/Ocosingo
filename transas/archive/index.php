@@ -11,16 +11,12 @@ $obj->username = 'root';
 $obj->password = 'root';
 $obj->db = 'laferia';
 
-
 // connect to db
+
 $obj->connect();
 ?>
 
-<!DOCTYPE html>   
-<html lang="en" class="no-js">
-<head>
-
-<title>Budget - Counting Pennies! | Adding Pennies!</title>
+<title>Budget - Counting Pennies! | Got Yo Money, thanks!</title>
 
 <meta charset="utf-8">
 <meta name="description" content="My very own budget app.">
@@ -44,27 +40,16 @@ $obj->connect();
 
 <?php include '../header.php'; ?>
 
-<h2>Adding a Payment</h2>
+<h2>Got it on record!</h2>
 
-<form action="test.php" method="POST">
-<dt><label for="category">Select Category</label></dt>
-<dd><select name="category">
-<option value=""></option>
-<option value="1">Bills</option>
-<option value="2">Dining Out</option>
-<option value="3">Groceries</option>
-<option value="4">Miscellaneous</option>
-</select></dd>
-<dt><label for="nombre">Name:</label></dt>
-<dd><input type="text" name="nombre" id="nombre" /></dd>
+<p>You gonna be so broke dude from what it's looking like this month. Just saying!</p>
 
-<dt><label for="amount">Amount:</label></dt>
-<dd><input type="number" name="amount" id="amount" step="any" /></dd>
-
-<dd><input type="submit" name="submit" value="Go Broke!" /></dd>
-</dl>
-</form>
-
-
+<?php
+	if($_POST['add']):
+	$obj->add_monies($_POST);
+elseif($_POST['update']):
+	$obj->update_monies($_POST);
+endif;
+?>
 
 <?php include '../footer.php'; ?>

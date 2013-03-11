@@ -262,10 +262,63 @@ textarea {
   overflow: auto;
   vertical-align: top;
   }
-
+  
 /* Tables
 ----------*/
 table {
   border-collapse: collapse;
   border-spacing: 0;
+  }
+
+/* layout styles
+-----------------*/
+.menu {
+  padding: .5em;
+  }
+.menu ul {
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  }
+.menu li {
+  line-height: 180%;
+  list-style: none;
+  border-top: 1px solid #EEE;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #555;
+  border-left: 1px solid #EEE;
+  float: left;
+  margin-right: 1em;
+  margin-bottom: .3em;
+  padding: .3em 1em;
+  }
+
+/* decorative styles
+---------------------*/
+.bills, .dining-out, .groceries, .miscellaneous {
+  border-top: 1px solid #EEE;
+  border-right: 2px solid #CCC;
+  border-bottom: 3px solid #AAA;
+  border-left: 1px solid #DDD;
+  margin: 2em 0;
+  padding: 0 1em;
+  }
+.bills h2, .dining-out h2, .groceries h2, .miscellaneous h2 {
+  border-bottom: 1px solid #CCC;
+  padding-bottom: .3em;
+  }
+
+.name {
+  padding: .5em;
+  background: #BBB;
+  }
+.amount {
+  padding: .5em;
+  background: #DDD;
+}
+
+.total {
+  color: #FFF;
+  padding: 1em;
+  background: #000;
   }

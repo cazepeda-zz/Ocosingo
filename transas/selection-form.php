@@ -11,16 +11,12 @@ $obj->username = 'root';
 $obj->password = 'root';
 $obj->db = 'laferia';
 
-
 // connect to db
+
 $obj->connect();
 ?>
 
-<!DOCTYPE html>   
-<html lang="en" class="no-js">
-<head>
-
-<title>Budget - Counting Pennies! | Adding Pennies!</title>
+<title>Budget - Counting Pennies! | Got Yo Money, thanks!</title>
 
 <meta charset="utf-8">
 <meta name="description" content="My very own budget app.">
@@ -44,7 +40,7 @@ $obj->connect();
 
 <?php include '../header.php'; ?>
 
-<h2>Adding a Payment</h2>
+<h2>Form Test for selecting data</h2>
 
 <form action="test.php" method="POST">
 <dt><label for="category">Select Category</label></dt>
@@ -64,7 +60,5 @@ $obj->connect();
 <dd><input type="submit" name="submit" value="Go Broke!" /></dd>
 </dl>
 </form>
-
-
 
 <?php include '../footer.php'; ?>

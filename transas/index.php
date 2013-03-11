@@ -40,16 +40,24 @@ $obj->connect();
 
 <?php include '../header.php'; ?>
 
-<h2>Got it on record!</h2>
+<h2>Payment has been added!</h2>
 
-<p>You gonna be so broke dude from what it's looking like this month. Just saying!</p>
+<p>It sucks huh!? Got pay them bills homie!</p>
 
 <?php
-	if($_POST['add']):
-	$obj->add_monies($_POST);
-elseif($_POST['update']):
-	$obj->update_monies($_POST);
-endif;
+if (isset($_POST['category'])) {
+	if (intval($_POST['category']) === 1) {
+		$obj->add_monies($_POST);
+	} else if (intval($_POST['category']) === 2)	{
+		$obj->add_dining_out_monies($_POST);
+	} else if (intval($_POST['category']) === 3)	{
+		$obj->add_groceries_monies($_POST);
+	} else if (intval($_POST['category']) === 4)	{
+		$obj->add_misc_monies($_POST);
+	} else {
+		// Error selecting category.
+	}
+}
 ?>
 
 <?php include '../footer.php'; ?>

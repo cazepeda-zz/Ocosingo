@@ -11,6 +11,7 @@ function connect() {
 	mysql_select_db($this->db, $connecting) or die(mysql_error());
 }
 
+// bills table get bills data
 function get_monies($id = '') {
 	if($id != ""):
 		$id = mysql_real_escape_string($id);
@@ -24,16 +25,18 @@ function get_monies($id = '') {
 
 	if(mysql_num_rows($result) != 0):
 		while($row = mysql_fetch_assoc($result)) {
-			echo '<tr><td>';
+			echo '<dt class="name bills-name">';
 			echo ''. $row['nombre'] .'';
-			echo '</td>';
+			echo '</dt>';
 			echo "\n";
-			echo '<td>';
+			echo '<dd class="amount bills-amount">$';
 			echo ''. $row['amount'] .'';
-			echo '</td></tr>';
+			echo '</dd>';
+			echo "\n";
 		}
 	else:
-		echo '<p>Sorry buddy, you broke homie!</p>';
+		echo '<dt class="no-bills">NO WAY! I know you got bills, ADD THEM!</dt>';
+		echo "\n";
 	endif;
 
 	echo $return;
@@ -53,16 +56,18 @@ function get_misc_monies($id = '') {
 
 	if(mysql_num_rows($result) != 0):
 		while($row = mysql_fetch_assoc($result)) {
-			echo '<tr><td>';
+			echo '<dt class="name miscellaneous-name">';
 			echo ''. $row['nombre'] .'';
-			echo '</td>';
+			echo '</dt>';
 			echo "\n";
-			echo '<td>';
+			echo '<dd class="amount miscellaneous-amount">$';
 			echo ''. $row['amount'] .'';
-			echo '</td></tr>';
+			echo '</dd>';
+			echo "\n";
 		}
 	else:
-		echo '<p>Sorry buddy, you broke homie!</p>';
+		echo '<dt class="no-miscellaneous">NO WAY! I know you got bills, ADD THEM!</dt>';
+		echo "\n";
 	endif;
 
 	echo $return;
@@ -75,23 +80,24 @@ function get_dining_out_monies($id = '') {
 		$sql = "SELECT * FROM dining_out WHERE id = '$id'";
 		$return = '<p><a href="/">Home</a></p>';
 	else:
-		$sql = "SELECT place, amount FROM dining_out ORDER BY amount DESC";
+		$sql = "SELECT nombre, amount FROM dining_out ORDER BY amount DESC";
 	endif;
 
 	$result = mysql_query($sql) or die(mysql_error());
 
 	if(mysql_num_rows($result) != 0):
 		while($row = mysql_fetch_assoc($result)) {
-			echo '<tr><td>';
-			echo ''. $row['place'] .'';
-			echo '</td>';
+			echo '<dt class="name dining-out-name">';
+			echo ''. $row['nombre'] .'';
+			echo '</dt>';
 			echo "\n";
-			echo '<td>';
+			echo '<dd class="amount dining-out-amount">$';
 			echo ''. $row['amount'] .'';
-			echo '</td></tr>';
+			echo '</dd>';
+			echo "\n";
 		}
 	else:
-		echo '<p>Sorry buddy, you broke homie!</p>';
+		echo '<dt class="no-dining-out">NO WAY! I know you got bills, ADD THEM!</dt>';
 	endif;
 
 	echo $return;
@@ -104,28 +110,30 @@ function get_groceries_monies($id = '') {
 		$sql = "SELECT * FROM groceries WHERE id = '$id'";
 		$return = '<p><a href="/">Home</a></p>';
 	else:
-		$sql = "SELECT market, amount FROM groceries ORDER BY amount DESC";
+		$sql = "SELECT nombre, amount FROM groceries ORDER BY amount DESC";
 	endif;
 
 	$result = mysql_query($sql) or die(mysql_error());
 
 	if(mysql_num_rows($result) != 0):
 		while($row = mysql_fetch_assoc($result)) {
-			echo '<tr><td>';
-			echo ''. $row['market'] .'';
-			echo '</td>';
+			echo '<dt class="name groceries-name">';
+			echo ''. $row['nombre'] .'';
+			echo '</dt>';
 			echo "\n";
-			echo '<td>';
+			echo '<dd class="amount groceries-amount">';
 			echo ''. $row['amount'] .'';
-			echo '</td></tr>';
+			echo '</dd>';
+			echo "\n";
 		}
 	else:
-		echo '<p>Sorry buddy, you broke homie!</p>';
+		echo '<dt class="no-groceries">NO WAY! I know you got bills, ADD THEM!</dt>';
 	endif;
 
 	echo $return;
 	}
 
+// bills table add data
 function add_monies($post) {
 	$nombre = mysql_real_escape_string($post['nombre']);
 	$amount = mysql_real_escape_string($post['amount']);
@@ -164,7 +172,7 @@ function add_misc_monies($post) {
 		endif;
 
 
-		echo '<p><a href="misc-adding.php">Try again.</a>';
+		echo '<p><a href="adding.php">Try again.</a>';
 		else:
 			$sql = "INSERT INTO miscellaneous VALUES (null, '$nombre', '$amount')";
 		$result = mysql_query($sql) or die(mysql_error());
@@ -175,12 +183,12 @@ function add_misc_monies($post) {
 
 // dining_out table add data
 function add_dining_out_monies($post) {
-	$place = mysql_real_escape_string($post['place']);
+	$nombre = mysql_real_escape_string($post['nombre']);
 	$amount = mysql_real_escape_string($post['amount']);
 
-	if(!$place || !$amount):
+	if(!$nombre || !$amount):
 
-		if(!$place):
+		if(!$nombre):
 			echo "<p>Dining Out Name is required.</p>";
 		endif;
 		if(!$amount):
@@ -188,9 +196,9 @@ function add_dining_out_monies($post) {
 		endif;
 
 
-		echo '<p><a href="dining-out-adding.php">Try again.</a>';
+		echo '<p><a href="adding.php">Try again.</a>';
 		else:
-			$sql = "INSERT INTO dining_out VALUES (null, '$place', '$amount')";
+			$sql = "INSERT INTO dining_out VALUES (null, '$nombre', '$amount')";
 		$result = mysql_query($sql) or die(mysql_error());
 		echo "Added Succesfully!";
 
@@ -199,12 +207,12 @@ function add_dining_out_monies($post) {
 
 // groceries table add data
 function add_groceries_monies($post) {
-	$market = mysql_real_escape_string($post['market']);
+	$nombre = mysql_real_escape_string($post['nombre']);
 	$amount = mysql_real_escape_string($post['amount']);
 
-	if(!$market || !$amount):
+	if(!$nombre || !$amount):
 
-		if(!$market):
+		if(!$nombre):
 			echo "<p>Groceries Name is required.</p>";
 		endif;
 		if(!$amount):
@@ -212,9 +220,9 @@ function add_groceries_monies($post) {
 		endif;
 
 
-		echo '<p><a href="groceries-out-adding.php">Try again.</a>';
+		echo '<p><a href="adding.php">Try again.</a>';
 		else:
-			$sql = "INSERT INTO groceries VALUES (null, '$market', '$amount')";
+			$sql = "INSERT INTO groceries VALUES (null, '$nombre', '$amount')";
 		$result = mysql_query($sql) or die(mysql_error());
 		echo "Added Succesfully!";
 
@@ -260,7 +268,7 @@ function manage_dining_out_monies() {
 	while($row = mysql_fetch_assoc($result)) :
 		?>
 <div>
-	<h2 class="place"><?=$row['place']?></h2>
+	<h2 class="nombre"><?=$row['nombre']?></h2>
 	<span class="actions"><a href="dining-out-edit.php?id=<?=$row['id']?>">Edit</a> | <a href="?delete=<?=$row['id'];?>">Delete</a></span>
 </div>
 	<?php
@@ -276,7 +284,7 @@ function manage_groceries_monies() {
 	while($row = mysql_fetch_assoc($result)) :
 		?>
 <div>
-	<h2 class="market"><?=$row['market']?></h2>
+	<h2 class="nombre"><?=$row['nombre']?></h2>
 	<span class="actions"><a href="groceries-edit.php?id=<?=$row['id']?>">Edit</a> | <a href="?delete=<?=$row['id'];?>">Delete</a></span>
 </div>
 	<?php
@@ -433,8 +441,8 @@ function update_dining_out_monies_form($id) {
 <input type="hidden" name="id" value="<?=$row['id']?>">
 
 <dl>
-<dt><label for="place">Dining Out Place:</label></dt>
-<dd><input type="text" name="place" id="place" value="<?=$row['place']?>"/></dd>
+<dt><label for="nombre">Dining Out Place:</label></dt>
+<dd><input type="text" name="nombre" id="nombre" value="<?=$row['nombre']?>"/></dd>
 
 <dt><label for="amount">Dining Out Amount:</label></dt>
 <dd><input type="number" name="amount" id="amount" value="<?=$row['amount']?>" step="any" /></dd>
@@ -447,13 +455,13 @@ function update_dining_out_monies_form($id) {
 
 // dining_out table update data
 function update_dining_out_monies($post) {
-	$place = mysql_real_escape_string($post['place']);
+	$nombre = mysql_real_escape_string($post['nombre']);
 	$amount = mysql_real_escape_string($post['amount']);
 	$id = mysql_real_escape_string($post['id']);
 
-	if(!$place || !$amount):
-		if(!$place):
-			echo "<p>Dining Out Place is required homez! Put it on there!</p>";
+	if(!$nombre || !$amount):
+		if(!$nombre):
+			echo "<p>Dining Out Name is required homez! Put it on there!</p>";
 		endif;
 		if(!$amount):
 			echo "<p>Dining Out Amount is required! Don't act the fool!</p>";
@@ -461,7 +469,7 @@ function update_dining_out_monies($post) {
 
 		echo '<p><a href="dining-out-edit.php?id=' . $id . '">Try Again!</a></p>';
 	else:
-		$sql = "UPDATE dining_out SET place = '$place', amount = '$amount' WHERE id = '$id'";
+		$sql = "UPDATE dining_out SET nombre = '$nombre', amount = '$amount' WHERE id = '$id'";
 		$result = mysql_query($sql) or die(mysql_error());
 		echo "Updated Successfully!";
 	endif;
@@ -479,8 +487,8 @@ function update_groceries_monies_form($id) {
 <input type="hidden" name="id" value="<?=$row['id']?>">
 
 <dl>
-<dt><label for="market">Groceries Market:</label></dt>
-<dd><input type="text" name="market" id="market" value="<?=$row['market']?>"/></dd>
+<dt><label for="nombre">Groceries nombre:</label></dt>
+<dd><input type="text" name="nombre" id="nombre" value="<?=$row['nombre']?>"/></dd>
 
 <dt><label for="amount">Groceries Amount:</label></dt>
 <dd><input type="number" name="amount" id="amount" value="<?=$row['amount']?>" step="any" /></dd>
@@ -493,13 +501,13 @@ function update_groceries_monies_form($id) {
 
 // groceries table update data
 function update_groceries_monies($post) {
-	$market = mysql_real_escape_string($post['market']);
+	$nombre = mysql_real_escape_string($post['nombre']);
 	$amount = mysql_real_escape_string($post['amount']);
 	$id = mysql_real_escape_string($post['id']);
 
-	if(!$market || !$amount):
-		if(!$market):
-			echo "<p>Groceries market is required homez! Put it on there!</p>";
+	if(!$nombre || !$amount):
+		if(!$nombre):
+			echo "<p>Groceries nombre is required homez! Put it on there!</p>";
 		endif;
 		if(!$amount):
 			echo "<p>Groceries Amount is required! Don't act the fool!</p>";
@@ -507,7 +515,7 @@ function update_groceries_monies($post) {
 
 		echo '<p><a href="groceries-edit.php?id=' . $id . '">Try Again!</a></p>';
 	else:
-		$sql = "UPDATE groceries SET market = '$market', amount = '$amount' WHERE id = '$id'";
+		$sql = "UPDATE groceries SET nombre = '$nombre', amount = '$amount' WHERE id = '$id'";
 		$result = mysql_query($sql) or die(mysql_error());
 		echo "Updated Successfully!";
 	endif;

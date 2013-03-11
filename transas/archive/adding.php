@@ -44,26 +44,29 @@ $obj->connect();
 
 <?php include '../header.php'; ?>
 
-<h2>Adding a Payment</h2>
+<h2>You can hear the pennies hit the bottom of the bucket when you hit 'Go Broke!'</h2>
 
-<form action="test.php" method="POST">
-<dt><label for="category">Select Category</label></dt>
-<dd><select name="category">
-<option value=""></option>
-<option value="1">Bills</option>
-<option value="2">Dining Out</option>
-<option value="3">Groceries</option>
-<option value="4">Miscellaneous</option>
-</select></dd>
-<dt><label for="nombre">Name:</label></dt>
-<dd><input type="text" name="nombre" id="nombre" /></dd>
+<form method="post" action="index.php">
+	<input type="hidden" name="add" value="true" />
 
-<dt><label for="amount">Amount:</label></dt>
-<dd><input type="number" name="amount" id="amount" step="any" /></dd>
+	<dl>
+		<dt><label for="table_data">Select Category</label></dt>
+		<dd><select id="category" name="category">
+			  <option value="" selected></option>
+			  <option value="Bills">Bills</option>
+			  <option value="Dining Out">Dining Out</option>
+			  <option value="Groceries">Groceries</option>
+			  <option value="Miscellaneous">Miscellaneous</option>
+			</select>
+		</dd>
+		<dt><label for="nombre">Name:</label></dt>
+		<dd><input type="text" name="nombre" id="nombre" /></dd>
 
-<dd><input type="submit" name="submit" value="Go Broke!" /></dd>
-</dl>
-</form>
+		<dt><label for="amount">Amount:</label></dt>
+		<dd><input type="number" name="amount" id="amount" step="any" /></dd>
+
+		<dd><input type="submit" name="submit" value="Go Broke!" /></dd>
+	</dl>
 
 
 

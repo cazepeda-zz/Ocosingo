@@ -11,16 +11,12 @@ $obj->username = 'root';
 $obj->password = 'root';
 $obj->db = 'laferia';
 
-
 // connect to db
+
 $obj->connect();
 ?>
 
-<!DOCTYPE html>   
-<html lang="en" class="no-js">
-<head>
-
-<title>Budget - Counting Pennies! | Adding Pennies!</title>
+<title>Budget - Counting Pennies! | Got Yo Money, thanks!</title>
 
 <meta charset="utf-8">
 <meta name="description" content="My very own budget app.">
@@ -44,27 +40,20 @@ $obj->connect();
 
 <?php include '../header.php'; ?>
 
-<h2>Adding a Payment</h2>
-
-<form action="test.php" method="POST">
-<dt><label for="category">Select Category</label></dt>
-<dd><select name="category">
-<option value=""></option>
-<option value="1">Bills</option>
-<option value="2">Dining Out</option>
-<option value="3">Groceries</option>
-<option value="4">Miscellaneous</option>
-</select></dd>
-<dt><label for="nombre">Name:</label></dt>
-<dd><input type="text" name="nombre" id="nombre" /></dd>
-
-<dt><label for="amount">Amount:</label></dt>
-<dd><input type="number" name="amount" id="amount" step="any" /></dd>
-
-<dd><input type="submit" name="submit" value="Go Broke!" /></dd>
-</dl>
-</form>
-
-
+<?php
+if (isset($_POST['category'])) {
+	if (intval($_POST['category']) === 1) {
+		$obj->add_monies($_POST);
+	} else if (intval($_POST['category']) === 2)	{
+		$obj->add_dining_out_monies($_POST);
+	} else if (intval($_POST['category']) === 3)	{
+		$obj->add_groceries_monies($_POST);
+	} else if (intval($_POST['category']) === 4)	{
+		$obj->add_misc_monies($_POST);
+	} else {
+		// Error selecting category.
+	}
+}
+?>
 
 <?php include '../footer.php'; ?>
