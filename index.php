@@ -1,74 +1,49 @@
-<?php
-
-include '_class/budget_class.php';
-
-$obj = new laferia();
-
-// setup our connection variables
-
-$obj->host = 'localhost';
-$obj->username = 'root';
-$obj->password = 'root';
-$obj->db = 'laferia';
-
-
-// connect to db
-$obj->connect();
-?>
-
-<!DOCTYPE html>   
-<html lang="en" class="no-js">
-<head>
-
-<title>Budget - Counting Pennies!</title>
-
-<meta charset="utf-8">
-<meta name="description" content="My very own budget app.">
-<meta name="keywords" content="budget, accounting" />
-<meta name="author" content="Carlos Alberto Zepeda">
-<meta name="robots" content="nofollow,noindex" />
-<meta name="viewport" content="width=device-width; initial-scale=1.0">
-
-<!--links-->
-<link rel="stylesheet" href="/assets/styles.css">
-
-<!--scripts-->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<!--[if (gte IE 6)&(lte IE 8)]>
-<script src="/assets/js/modernizr.js"></script>
-<script src="/assets/js/respond.js"></script>
-<![endif]-->
-</head>
-
-<body>
-
 <?php include 'header.php'; ?>
 
-<article class="bills">
+<h2>View</h2>
+
+<nav class="menu">
+<ul>
+<li><a href="#" id="bills">Bills</a></li>
+<li><a href="#" id="dining-out">Dining Out</a></li>
+<li><a href="#" id="groceries">Groceries</a></li>
+<li><a href="#" id="miscellaneous">Miscellaneous</a></li>
+</ul>
+</nav>
+
+<article class="category bills">
 <h2>Bills</h2>
 	
-<dl class="bills-data">
-<?php
-	if(isset($_GET['id'])):
-		$obj->get_monies($_GET['id']);
-	else:
-		$obj->get_monies();
-	endif;
+<dl class="costs">
+<?php 
+	$query = "SELECT * FROM centavos WHERE category='Bills'";
+	$result = mysql_query($query) or die(mysql_error());
+
+		while($row = mysql_fetch_assoc($result)) {
+			echo '<dt class="name">';
+			echo ''. $row['nombre'] .'';
+			echo '</dt>';
+			echo "\n";
+			echo '<dd class="amount">$';
+			echo ''. $row['amount'] .'';
+			echo '</dd>';
+			echo "\n";
+		}
 ?>
 </dl>
 
-<dl class="total bills-total">
+<dl class="total">
 <?php
 	// Make a MySQL Connection
-	$query = "SELECT amount, SUM(amount) FROM bills"; 
+	$query = "SELECT amount, SUM(amount) FROM centavos WHERE category='Bills'"; 
 	
 	$result = mysql_query($query) or die(mysql_error());
 
 	// Print out result
 	while($row = mysql_fetch_array($result)){
-	echo '<dt class="bills-total-label">Bills Total</dt>';
+	echo '<dt class="name">Bills Total</dt>';
 	echo "\n";
-	echo '<dd class="bills-total-amount">$'. $row['SUM(amount)'];
+	echo '<dd class="amount">$'. $row['SUM(amount)'];
 	echo "</dd>";
 	echo "\n";
 	}
@@ -76,31 +51,39 @@ $obj->connect();
 </dl>
 </article>
 
-<article class="dining-out">
+<article class="category dining-out">
 <h2>Dining Out</h2>
 
-<dl class="dining-out-data">
-		<?php
-			if(isset($_GET['id'])):
-				$obj->get_dining_out_monies($_GET['id']);
-			else:
-				$obj->get_dining_out_monies();
-			endif;
-			?>
+<dl class="costs">
+<?php 
+	$query = "SELECT * FROM centavos WHERE category='Dining Out'";
+	$result = mysql_query($query) or die(mysql_error());
+
+		while($row = mysql_fetch_assoc($result)) {
+			echo '<dt class="name">';
+			echo ''. $row['nombre'] .'';
+			echo '</dt>';
+			echo "\n";
+			echo '<dd class="amount">$';
+			echo ''. $row['amount'] .'';
+			echo '</dd>';
+			echo "\n";
+		}
+?>
 </dl>
 
-<dl class="total dining-out-total">
+<dl class="total">
 <?php
 	// Make a MySQL Connection
-	$query = "SELECT amount, SUM(amount) FROM dining_out"; 
+	$query = "SELECT amount, SUM(amount) FROM centavos WHERE category='Dining Out'"; 
 	
 	$result = mysql_query($query) or die(mysql_error());
 
 	// Print out result
 	while($row = mysql_fetch_array($result)){
-	echo '<dt class="dining-out-total-label">Dining Out Total</dt>';
+	echo '<dt class="name">Dining Out Total</dt>';
 	echo "\n";
-	echo '<dd class="dining-out-total-amount">$'. $row['SUM(amount)'];
+	echo '<dd class="amount">$'. $row['SUM(amount)'];
 	echo "</dd>";
 	echo "\n";
 	}
@@ -108,31 +91,39 @@ $obj->connect();
 </dl>
 </article>
 
-<article class="groceries">
+<article class="category groceries">
 <h2>Groceries</h2>
 
-<dl class="groceries-data">
-		<?php
-			if(isset($_GET['id'])):
-				$obj->get_groceries_monies($_GET['id']);
-			else:
-				$obj->get_groceries_monies();
-			endif;
-			?>
+<dl class="costs">
+<?php 
+	$query = "SELECT * FROM centavos WHERE category='Groceries'";
+	$result = mysql_query($query) or die(mysql_error());
+
+		while($row = mysql_fetch_assoc($result)) {
+			echo '<dt class="name">';
+			echo ''. $row['nombre'] .'';
+			echo '</dt>';
+			echo "\n";
+			echo '<dd class="amount">$';
+			echo ''. $row['amount'] .'';
+			echo '</dd>';
+			echo "\n";
+		}
+?>
 </dl>
 
-<dl class="total groceries-total">
+<dl class="total">
 <?php
 	// Make a MySQL Connection
-	$query = "SELECT amount, SUM(amount) FROM groceries"; 
+	$query = "SELECT amount, SUM(amount) FROM centavos WHERE category='Groceries'"; 
 	
 	$result = mysql_query($query) or die(mysql_error());
 
 	// Print out result
 	while($row = mysql_fetch_array($result)){
-	echo '<dt class="groceries-total-label">Groceries Total</dt>';
+	echo '<dt class="name">Groceries Total</dt>';
 	echo "\n";
-	echo '<dd class="groceries-total-amount">$'. $row['SUM(amount)'];
+	echo '<dd class="amount">$'. $row['SUM(amount)'];
 	echo "</dd>";
 	echo "\n";
 	}
@@ -140,31 +131,39 @@ $obj->connect();
 </dl>
 </article>
 
-<article class="miscellaneous">
+<article class="category miscellaneous">
 <h2>Miscellaneous</h2>
 
-<dl class="miscellaneous-data">
-		<?php
-			if(isset($_GET['id'])):
-				$obj->get_misc_monies($_GET['id']);
-			else:
-				$obj->get_misc_monies();
-			endif;
-			?>
+<dl class="costs">
+<?php 
+	$query = "SELECT * FROM centavos WHERE category='Miscellaneous'";
+	$result = mysql_query($query) or die(mysql_error());
+
+		while($row = mysql_fetch_assoc($result)) {
+			echo '<dt class="name">';
+			echo ''. $row['nombre'] .'';
+			echo '</dt>';
+			echo "\n";
+			echo '<dd class="amount">$';
+			echo ''. $row['amount'] .'';
+			echo '</dd>';
+			echo "\n";
+		}
+?>
 </dl>
 
-<dl class="total miscellaneous-total">
+<dl class="total">
 <?php
 	// Make a MySQL Connection
-	$query = "SELECT amount, SUM(amount) FROM miscellaneous"; 
+	$query = "SELECT amount, SUM(amount) FROM centavos WHERE category='Miscellaneous'";
 	
 	$result = mysql_query($query) or die(mysql_error());
 
 	// Print out result
 	while($row = mysql_fetch_array($result)){
-	echo '<dt class="miscellaneous-total-label">Miscellaneous Total</dt>';
+	echo '<dt class="name">Miscellaneous Total</dt>';
 	echo "\n";
-	echo '<dd class="miscellaneous-total-amount">$'. $row['SUM(amount)'];
+	echo '<dd class="amount">$'. $row['SUM(amount)'];
 	echo "</dd>";
 	echo "\n";
 	}

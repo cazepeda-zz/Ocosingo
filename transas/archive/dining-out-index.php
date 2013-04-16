@@ -6,9 +6,9 @@
 
 <?php
 	if($_POST['add']):
-	$obj->add_monies($_POST);
+	$obj->add_dining_out_monies($_POST);
 elseif($_POST['update']):
-	$obj->update_monies($_POST);
+	$obj->update_dining_out_monies($_POST);
 endif;
 ?>
 
