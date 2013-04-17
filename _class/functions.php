@@ -71,20 +71,6 @@ function add_centavos($post) {
 
 // manage data
 function manage_centavos() {
- /*
-	echo '<dl class="costs">';
-	echo "\n";
-	$sql = 'SELECT * FROM centavos ORDER BY category="Bills"';
-	$result = mysql_query($sql) or die(mysql_error());
-	while($row = mysql_fetch_assoc($result)) :
-		?>
-	<dt class="name"><?=$row['nombre']?></dt>
-	<dd class="actions"><a href="update.php?id=<?=$row['id']?>">Edit</a> | <a href="?delete=<?=$row['id'];?>">Delete</a></dd>
-	<?php
-	endwhile;
-	echo "\n";
-	echo '</dl>';
-*/
 	echo '<article class="category bills">';
 	echo '<h2>Bills</h2>';
 	echo '<dl class="costs">';
@@ -184,7 +170,8 @@ function update_centavos_form($id) {
 <dd><input type="text" name="nombre" id="nombre" value="<?=$row['nombre']?>" /></dd>
 
 <dt><label for="amount">Amount:</label></dt>
-<dd><input type="number" name="amount" id="amount" step="any" value="<?=$row['amount']?>" /></dd>
+<dd><input id="range" type="range" name="amount" step="0.01"></dd>
+<dd><input id="amount" type="number" name="amount" step="0.01" value="<?=$row['amount']?>" /></dd>
 
 <dd><input type="submit" name="submit" value="Go Broke!" /></dd>
 </dl>

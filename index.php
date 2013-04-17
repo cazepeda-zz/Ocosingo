@@ -1,16 +1,5 @@
 <?php include 'header.php'; ?>
 
-<h2>View</h2>
-
-<nav class="menu">
-<ul>
-<li><a href="#" id="bills">Bills</a></li>
-<li><a href="#" id="dining-out">Dining Out</a></li>
-<li><a href="#" id="groceries">Groceries</a></li>
-<li><a href="#" id="miscellaneous">Miscellaneous</a></li>
-</ul>
-</nav>
-
 <article class="category bills">
 <h2>Bills</h2>
 	

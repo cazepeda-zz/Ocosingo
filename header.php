@@ -40,7 +40,15 @@ $obj->connect();
 <body>
 
 <header>
-<h1><a href="/">Budget</a> | <?php echo date( 'F, o'); ?></h1>
+<h1><a href="/">Budget</a></h1>
+
+<nav class="menu">
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/transas/adding.php">Add</a></li>
+<li><a href="/transas/edit.php">Edit</a></li>
+</ul>
+</nav>
 
 <?php
 	$query = "SELECT amount, SUM(amount) FROM centavos";
@@ -52,14 +60,6 @@ $obj->connect();
 		echo "\n";
 	}
 ?>
-
-<nav class="menu">
-<ul>
-<li><a href="/">Home</a></li>
-<li><a href="/transas/adding.php">Add</a></li>
-<li><a href="/transas/edit.php">Edit</a></li>
-</ul>
-</nav>
 </header>
 
 <section class="main">

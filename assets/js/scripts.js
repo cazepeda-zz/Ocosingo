@@ -1,3 +1,8 @@
+// pass the range value onto the number <input>
+$('#range').change(function() {
+    $('#amount').val($(this).val());
+});
+
 // script for toggling the categories
 // $("#bills").click(function () {
 // 	$(".bills").toggle();
