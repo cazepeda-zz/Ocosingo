@@ -158,14 +158,14 @@ function update_centavos_form($id) {
 <input type="hidden" name="update" value="true" />
 <input type="hidden" name="id" value="<?=$row['id']?>">
 
-<dt><label for="category">Select Category</label></dt>
-<dd><select name="category">
-<option value="<?=$row['category']?>"><?=$row['category']?></option>
-<option value="Bills">Bills</option>
-<option value="Dining Out">Dining Out</option>
-<option value="Groceries">Groceries</option>
-<option value="Miscellaneous">Miscellaneous</option>
-</select></dd>
+<dt><label for="category">Category</label></dt>
+<dd><label><input type="radio" name="category" value="<?=$row['category']?>" checked/> <?=$row['category']?></label></label>
+<dd><label><input type="radio" name="category" value="Bills" /> Bills</label></dd>
+<dd><label><input type="radio" name="category" value="Dining Out" /> Dining Out</label></dd>
+<dd><label><input type="radio" name="category" value="Groceries" /> Groceries</label></dd>
+<dd><label><input type="radio" name="category" value="Miscellaneous" /> Miscellaneous</label></dd>
+<dd><label><input type="radio" name="category" value"Other" /> Other</label></dd>
+
 <dt><label for="nombre">Name:</label></dt>
 <dd><input type="text" name="nombre" id="nombre" value="<?=$row['nombre']?>" /></dd>
 
